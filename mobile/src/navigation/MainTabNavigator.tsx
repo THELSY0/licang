@@ -3,6 +3,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { MainTabParamList } from './types';
 
+import CategoryHomeScreen from '../screens/home/CategoryHomeScreen';
+
 // Placeholder screens — will be implemented in later phases
 import { View, Text, StyleSheet } from 'react-native';
 
@@ -12,10 +14,6 @@ function PlaceholderScreen({ title }: { title: string }) {
       <Text style={styles.placeholderText}>{title}</Text>
     </View>
   );
-}
-
-function HomeScreen() {
-  return <PlaceholderScreen title="首页" />;
 }
 
 function ImportScreen() {
@@ -54,7 +52,7 @@ export default function MainTabNavigator() {
     >
       <Tab.Screen
         name="HomeTab"
-        component={HomeScreen}
+        component={CategoryHomeScreen}
         options={{
           tabBarLabel: '首页',
           tabBarIcon: ({ color, size }) => (
