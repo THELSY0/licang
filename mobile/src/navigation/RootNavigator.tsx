@@ -17,76 +17,53 @@ import TagManageScreen from '../screens/manage/TagManageScreen';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
-declare global {
-  namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {
-      Detail: { collectId: number };
-      CreateCollect: { initialUrl?: string };
-      CategoryManage: undefined;
-      TagManage: undefined;
-    }
-  }
-}
-
-function AuthStack() {
-  const AuthStackNav = createNativeStackNavigator();
-
-  return (
-    <AuthStackNav.Navigator
-      screenOptions={{ headerShown: false, animation: 'slide_from_right' }}
-    >
-      <AuthStackNav.Screen name="Splash" component={SplashScreen} />
-      <AuthStackNav.Screen name="Login" component={LoginScreen} />
-      <AuthStackNav.Screen name="Register" component={RegisterScreen} />
-    </AuthStackNav.Navigator>
-  );
-}
-
 export default function RootNavigator() {
   const { isAuthenticated, isLoading } = useAuth();
 
-  // 加载中 — 全屏loading
-  if (isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#1890FF" />
-      </View>
-    );
-  }
-
+  // NavigationContainer 必须始终挂载，不能放在条件渲染中
   return (
     <NavigationContainer>
-      <RootStack.Navigator screenOptions={{ headerShown: false }}>
-        {isAuthenticated ? (
-          <>
-            <RootStack.Screen name="MainTabs" component={MainTabNavigator} />
-
-            {/* 全屏子页面 — 在Tab之上push */}
-            <RootStack.Screen
-              name="Detail"
-              component={DetailScreen}
-              options={{ animation: 'slide_from_right' }}
-            />
-            <RootStack.Screen
-              name="CreateCollect"
-              component={CreateCollectScreen}
-              options={{ animation: 'slide_from_bottom' }}
-            />
-            <RootStack.Screen
-              name="CategoryManage"
-              component={CategoryManageScreen}
-              options={{ animation: 'slide_from_right' }}
-            />
-            <RootStack.Screen
-              name="TagManage"
-              component={TagManageScreen}
-              options={{ animation: 'slide_from_right' }}
-            />
-          </>
-        ) : (
-          <RootStack.Screen name="AuthStack" component={AuthStack} />
-        )}
-      </RootStack.Navigator>
+      {isLoading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#1890FF" />
+        </View>
+      ) : (
+        <RootStack.Navigator screenOptions={{ headerShown: false }}>
+          {isAuthenticated ? (
+            // 已登录 — 主界面
+            <RootStack.Group>
+              <RootStack.Screen name="MainTabs" component={MainTabNavigator} />
+              <RootStack.Screen
+                name="Detail"
+                component={DetailScreen}
+                options={{ animation: 'slide_from_right' }}
+              />
+              <RootStack.Screen
+                name="CreateCollect"
+                component={CreateCollectScreen}
+                options={{ animation: 'slide_from_bottom' }}
+              />
+              <RootStack.Screen
+                name="CategoryManage"
+                component={CategoryManageScreen}
+                options={{ animation: 'slide_from_right' }}
+              />
+              <RootStack.Screen
+                name="TagManage"
+                component={TagManageScreen}
+                options={{ animation: 'slide_from_right' }}
+              />
+            </RootStack.Group>
+          ) : (
+            // 未登录 — 认证流程
+            <RootStack.Group screenOptions={{ animation: 'slide_from_right' }}>
+              <RootStack.Screen name="Splash" component={SplashScreen} />
+              <RootStack.Screen name="Login" component={LoginScreen} />
+              <RootStack.Screen name="Register" component={RegisterScreen} />
+            </RootStack.Group>
+          )}
+        </RootStack.Navigator>
+      )}
     </NavigationContainer>
   );
 }

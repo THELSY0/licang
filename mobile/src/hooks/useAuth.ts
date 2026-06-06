@@ -5,21 +5,17 @@ import * as authApi from '../api/auth';
 
 /**
  * useAuth — 封装 authStore + TanStack Query
- *
- * 返回:
- *  - user, token, isAuthenticated, isLoading (来自store)
- *  - login, register, logout, loadUser (来自store actions)
- *  - 自动在挂载时恢复session
- *  - refetchUser: 手动刷新用户信息
+ * 
+ * 自动在挂载时调用 loadUser() 恢复session
  */
 export function useAuth() {
   const store = useAuthStore();
 
-  // 用户信息查询 (TanStack Query 缓存)
+  // 用户信息查询 (仅登录后启用)
   const userQuery = useQuery({
     queryKey: ['user'],
     queryFn: authApi.getUserInfo,
-    enabled: store.isAuthenticated,
+    enabled: store.isAuthenticated && !!store.token,
     retry: 1,
     staleTime: 5 * 60 * 1000, // 5分钟
   });
@@ -31,11 +27,11 @@ export function useAuth() {
   }, []);
 
   return {
-    // 状态
+    // 状态 — isLoading只看store，不看userQuery
     user: store.user ?? userQuery.data ?? null,
     token: store.token,
     isAuthenticated: store.isAuthenticated,
-    isLoading: store.isLoading || userQuery.isLoading,
+    isLoading: store.isLoading,
 
     // 认证操作
     login: store.login,
