@@ -1,0 +1,43 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway
+
+  cloud:
+    gateway:
+      routes:
+        # 用户服务
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/v1/user/**
+        # 收藏服务（收藏、分类、标签、搜索）
+        - id: collect-service
+          uri: lb://collect-service
+          predicates:
+            - Path=/v1/collects/**,/v1/categories/**,/v1/tags/**
+        # 解析服务
+        - id: parse-service
+          uri: lb://parse-service
+          predicates:
+            - Path=/v1/parse/**
+        # AI 服务
+        - id: ai-service
+          uri: lb://ai-service
+          predicates:
+            - Path=/v1/ai/**
+        # 同步服务
+        - id: sync-service
+          uri: lb://sync-service
+          predicates:
+            - Path=/v1/sync/**
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true

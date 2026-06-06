@@ -1,0 +1,930 @@
+[
+  {
+    "name": "ai-service",
+    "type": "directory",
+    "children": [
+      {
+        "name": "pom.xml",
+        "type": "file"
+      },
+      {
+        "name": "src",
+        "type": "directory",
+        "children": [
+          {
+            "name": "main",
+            "type": "directory",
+            "children": [
+              {
+                "name": "java",
+                "type": "directory",
+                "children": [
+                  {
+                    "name": "com",
+                    "type": "directory",
+                    "children": [
+                      {
+                        "name": "licang",
+                        "type": "directory",
+                        "children": [
+                          {
+                            "name": "ai",
+                            "type": "directory",
+                            "children": [
+                              {
+                                "name": "AiApplication.java",
+                                "type": "file"
+                              },
+                              {
+                                "name": "controller",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "AiController.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "dto",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "AiCategoryRequest.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "AiResult.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "AiSummaryRequest.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "AiTagRequest.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "service",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "AiService.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "impl",
+                                    "type": "directory",
+                                    "children": [
+                                      {
+                                        "name": "AiServiceImpl.java",
+                                        "type": "file"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "resources",
+                "type": "directory",
+                "children": [
+                  {
+                    "name": "application.yml",
+                    "type": "file"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "collect-service",
+    "type": "directory",
+    "children": [
+      {
+        "name": "pom.xml",
+        "type": "file"
+      },
+      {
+        "name": "src",
+        "type": "directory",
+        "children": [
+          {
+            "name": "main",
+            "type": "directory",
+            "children": [
+              {
+                "name": "java",
+                "type": "directory",
+                "children": [
+                  {
+                    "name": "com",
+                    "type": "directory",
+                    "children": [
+                      {
+                        "name": "licang",
+                        "type": "directory",
+                        "children": [
+                          {
+                            "name": "collect",
+                            "type": "directory",
+                            "children": [
+                              {
+                                "name": "CollectApplication.java",
+                                "type": "file"
+                              },
+                              {
+                                "name": "config",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "MyBatisPlusConfig.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "WebMvcConfig.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "controller",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "CategoryController.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "CollectController.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "TagController.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "dto",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "BatchOperateDTO.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "CollectCreateDTO.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "CollectQueryDTO.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "CollectUpdateDTO.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "CollectVO.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "TagVO.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "entity",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "Category.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "Collect.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "CollectTag.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "Tag.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "interceptor",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "AuthInterceptor.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "mapper",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "CategoryMapper.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "CollectMapper.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "CollectTagMapper.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "TagMapper.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "service",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "CategoryService.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "CollectService.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "impl",
+                                    "type": "directory",
+                                    "children": [
+                                      {
+                                        "name": "CategoryServiceImpl.java",
+                                        "type": "file"
+                                      },
+                                      {
+                                        "name": "CollectServiceImpl.java",
+                                        "type": "file"
+                                      },
+                                      {
+                                        "name": "TagServiceImpl.java",
+                                        "type": "file"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "name": "TagService.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "util",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "UserContext.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "resources",
+                "type": "directory",
+                "children": [
+                  {
+                    "name": "application.yml",
+                    "type": "file"
+                  },
+                  {
+                    "name": "mapper",
+                    "type": "directory",
+                    "children": [
+                      {
+                        "name": "CollectMapper.xml",
+                        "type": "file"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "common",
+    "type": "directory",
+    "children": [
+      {
+        "name": "pom.xml",
+        "type": "file"
+      },
+      {
+        "name": "src",
+        "type": "directory",
+        "children": [
+          {
+            "name": "main",
+            "type": "directory",
+            "children": [
+              {
+                "name": "java",
+                "type": "directory",
+                "children": [
+                  {
+                    "name": "com",
+                    "type": "directory",
+                    "children": [
+                      {
+                        "name": "licang",
+                        "type": "directory",
+                        "children": [
+                          {
+                            "name": "common",
+                            "type": "directory",
+                            "children": [
+                              {
+                                "name": "exception",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "BizException.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "GlobalExceptionHandler.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "result",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "Result.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "ResultCode.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "util",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "JwtUtil.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "resources",
+                "type": "directory",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "docs",
+    "type": "directory",
+    "children": [
+      {
+        "name": "sql",
+        "type": "directory",
+        "children": [
+          {
+            "name": "V1__init_schema.sql",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "notify-service",
+    "type": "directory",
+    "children": [
+      {
+        "name": "pom.xml",
+        "type": "file"
+      },
+      {
+        "name": "src",
+        "type": "directory",
+        "children": [
+          {
+            "name": "main",
+            "type": "directory",
+            "children": [
+              {
+                "name": "java",
+                "type": "directory",
+                "children": [
+                  {
+                    "name": "com",
+                    "type": "directory",
+                    "children": [
+                      {
+                        "name": "licang",
+                        "type": "directory",
+                        "children": [
+                          {
+                            "name": "notify",
+                            "type": "directory",
+                            "children": [
+                              {
+                                "name": "NotifyApplication.java",
+                                "type": "file"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "resources",
+                "type": "directory",
+                "children": [
+                  {
+                    "name": "application.yml",
+                    "type": "file"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "parse-service",
+    "type": "directory",
+    "children": [
+      {
+        "name": "pom.xml",
+        "type": "file"
+      },
+      {
+        "name": "src",
+        "type": "directory",
+        "children": [
+          {
+            "name": "main",
+            "type": "directory",
+            "children": [
+              {
+                "name": "java",
+                "type": "directory",
+                "children": [
+                  {
+                    "name": "com",
+                    "type": "directory",
+                    "children": [
+                      {
+                        "name": "licang",
+                        "type": "directory",
+                        "children": [
+                          {
+                            "name": "parse",
+                            "type": "directory",
+                            "children": [
+                              {
+                                "name": "controller",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "ParseController.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "dto",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "ParseRequest.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "ParseResult.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "ParseApplication.java",
+                                "type": "file"
+                              },
+                              {
+                                "name": "service",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "impl",
+                                    "type": "directory",
+                                    "children": [
+                                      {
+                                        "name": "ParseServiceImpl.java",
+                                        "type": "file"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "name": "ParseService.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "resources",
+                "type": "directory",
+                "children": [
+                  {
+                    "name": "application.yml",
+                    "type": "file"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "pom.xml",
+    "type": "file"
+  },
+  {
+    "name": "sync-service",
+    "type": "directory",
+    "children": [
+      {
+        "name": "pom.xml",
+        "type": "file"
+      },
+      {
+        "name": "src",
+        "type": "directory",
+        "children": [
+          {
+            "name": "main",
+            "type": "directory",
+            "children": [
+              {
+                "name": "java",
+                "type": "directory",
+                "children": [
+                  {
+                    "name": "com",
+                    "type": "directory",
+                    "children": [
+                      {
+                        "name": "licang",
+                        "type": "directory",
+                        "children": [
+                          {
+                            "name": "sync",
+                            "type": "directory",
+                            "children": [
+                              {
+                                "name": "controller",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "SyncController.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "dto",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "SyncRequest.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "entity",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "SyncRecord.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "mapper",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "SyncRecordMapper.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "service",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "impl",
+                                    "type": "directory",
+                                    "children": [
+                                      {
+                                        "name": "SyncServiceImpl.java",
+                                        "type": "file"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "name": "SyncService.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "SyncApplication.java",
+                                "type": "file"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "resources",
+                "type": "directory",
+                "children": [
+                  {
+                    "name": "application.yml",
+                    "type": "file"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "team-service",
+    "type": "directory",
+    "children": [
+      {
+        "name": "pom.xml",
+        "type": "file"
+      },
+      {
+        "name": "src",
+        "type": "directory",
+        "children": [
+          {
+            "name": "main",
+            "type": "directory",
+            "children": [
+              {
+                "name": "java",
+                "type": "directory",
+                "children": [
+                  {
+                    "name": "com",
+                    "type": "directory",
+                    "children": [
+                      {
+                        "name": "licang",
+                        "type": "directory",
+                        "children": [
+                          {
+                            "name": "team",
+                            "type": "directory",
+                            "children": [
+                              {
+                                "name": "TeamApplication.java",
+                                "type": "file"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "resources",
+                "type": "directory",
+                "children": [
+                  {
+                    "name": "application.yml",
+                    "type": "file"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "user-service",
+    "type": "directory",
+    "children": [
+      {
+        "name": "pom.xml",
+        "type": "file"
+      },
+      {
+        "name": "src",
+        "type": "directory",
+        "children": [
+          {
+            "name": "main",
+            "type": "directory",
+            "children": [
+              {
+                "name": "java",
+                "type": "directory",
+                "children": [
+                  {
+                    "name": "com",
+                    "type": "directory",
+                    "children": [
+                      {
+                        "name": "licang",
+                        "type": "directory",
+                        "children": [
+                          {
+                            "name": "user",
+                            "type": "directory",
+                            "children": [
+                              {
+                                "name": "config",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "SecurityConfig.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "WebMvcConfig.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "controller",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "UserController.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "dto",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "LoginRequest.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "LoginVO.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "RegisterRequest.java",
+                                    "type": "file"
+                                  },
+                                  {
+                                    "name": "UserVO.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "entity",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "User.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "interceptor",
+                                "type": "directory",
+                                
+
+[…truncated 1719 chars — raise BridgeOptions.maxResultChars, or call the tool with a narrower scope (filter, head, pagination)…]
+
+                            "type": "file"
+                              },
+                              {
+                                "name": "util",
+                                "type": "directory",
+                                "children": [
+                                  {
+                                    "name": "UserContext.java",
+                                    "type": "file"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "resources",
+                "type": "directory",
+                "children": [
+                  {
+                    "name": "application.yml",
+                    "type": "file"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

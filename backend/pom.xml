@@ -28,6 +28,7 @@
         <module>sync-service</module>
         <module>team-service</module>
         <module>notify-service</module>
+        <module>gateway</module>
     </modules>
 
     <properties>

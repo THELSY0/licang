@@ -13,9 +13,11 @@ import com.licang.collect.mapper.CollectMapper;
 import com.licang.collect.mapper.CollectTagMapper;
 import com.licang.collect.mapper.TagMapper;
 import com.licang.collect.service.CollectService;
+import com.licang.collect.service.SearchService;
 import com.licang.common.exception.BizException;
 import com.licang.common.result.ResultCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -37,6 +39,9 @@ public class CollectServiceImpl implements CollectService {
     private final CollectTagMapper collectTagMapper;
     private final CategoryMapper categoryMapper;
     private final TagMapper tagMapper;
+
+    @Autowired(required = false)
+    private SearchService searchService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -67,8 +72,14 @@ public class CollectServiceImpl implements CollectService {
             saveCollectTags(collect.getId(), dto.getTagIds());
         }
 
-        // 4. 返回 VO
-        return buildCollectVO(collect);
+        // 4. 同步到 ES
+        CollectVO vo = buildCollectVO(collect);
+        if (searchService != null) {
+            searchService.indexToEs(vo);
+        }
+
+        // 5. 返回 VO
+        return vo;
     }
 
     @Override
@@ -132,6 +143,11 @@ public class CollectServiceImpl implements CollectService {
 
         collectMapper.updateById(collect);
 
+        // 同步更新到 ES
+        if (searchService != null) {
+            searchService.indexToEs(buildCollectVO(collect));
+        }
+
         // 更新关联标签（全量替换）
         if (dto.getTagIds() != null) {
             // 删除旧关联
@@ -150,6 +166,11 @@ public class CollectServiceImpl implements CollectService {
     public void delete(Long id, Long userId) {
         Collect collect = getCollectAndCheckOwnership(id, userId);
         collectMapper.deleteById(id); // 逻辑删除（@TableLogic）
+
+        // 同步删除 ES 文档
+        if (searchService != null) {
+            searchService.deleteFromEs(id);
+        }
 
         // 删除关联标签
         LambdaQueryWrapper<CollectTag> wrapper = new LambdaQueryWrapper<>();
