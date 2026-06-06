@@ -1,17 +1,17 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import type { CompositeScreenProps } from '@react-navigation/native';
+import type { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
 
-// ==================== Root Stack (所有页面平级) ====================
+// ==================== Root Stack ====================
 
 export type RootStackParamList = {
   // 认证流程
   Splash: undefined;
   Login: undefined;
   Register: undefined;
+
   // 主界面
-  MainTabs: undefined;
-  // 全屏子页面
+  MainTabs: NavigatorScreenParams<MainTabParamList>;
   Detail: { collectId: number };
   CreateCollect: { initialUrl?: string };
   CategoryManage: undefined;
@@ -21,13 +21,17 @@ export type RootStackParamList = {
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, T>;
 
-// ==================== Auth Stack (保留兼容旧引用) ====================
+// ==================== Auth Stack ====================
 
+// 已合并到 RootStack，保留导出以兼容外部引用
 export type AuthStackParamList = {
   Splash: undefined;
   Login: undefined;
   Register: undefined;
 };
+
+export type AuthStackScreenProps<T extends keyof AuthStackParamList> =
+  NativeStackScreenProps<AuthStackParamList, T>;
 
 // ==================== Main Tabs ====================
 
@@ -44,10 +48,10 @@ export type MainTabScreenProps<T extends keyof MainTabParamList> =
     RootStackScreenProps<'MainTabs'>
   >;
 
-// ==================== 全局导航类型声明 ====================
+// ==================== 推导导航props的便捷类型 ====================
 
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList { }
+    interface RootParamList extends RootStackParamList {}
   }
 }

@@ -1,11 +1,30 @@
 import React from 'react';
+import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import RootNavigator from './src/navigation/RootNavigator';
+
+// TanStack Query 客户端
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 2,
+      staleTime: 30 * 1000, // 30秒
+      refetchOnWindowFocus: false,
+    },
+    mutations: {
+      retry: 1,
+    },
+  },
+});
 
 export default function App() {
   return (
     <SafeAreaProvider>
-      <RootNavigator />
+      <QueryClientProvider client={queryClient}>
+        <StatusBar style="auto" />
+        <RootNavigator />
+      </QueryClientProvider>
     </SafeAreaProvider>
   );
 }
