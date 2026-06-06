@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "栗藏",
+    "slug": "licang",
+    "version": "1.0.0",
+    "scheme": "licang",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1890FF"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jucang.licang"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1890FF"
+      },
+      "package": "com.jucang.licang"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-splash-screen"
+    ]
+  }
+}
