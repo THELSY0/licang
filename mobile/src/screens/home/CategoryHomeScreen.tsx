@@ -40,7 +40,11 @@ function getCategoryVisual(icon: string | undefined) {
 
 // ==================== Component ====================
 
-export default function CategoryHomeScreen() {
+interface CategoryHomeScreenProps {
+  compact?: boolean;
+}
+
+export default function CategoryHomeScreen({ compact = false }: CategoryHomeScreenProps) {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<any>();
   const [refreshing, setRefreshing] = useState(false);
@@ -131,33 +135,35 @@ export default function CategoryHomeScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      {/* ---- 顶部栏 ---- */}
-      <View style={styles.header}>
-        <View style={styles.headerTitleRow}>
-          <Text style={styles.greeting}>我的收藏</Text>
+    <SafeAreaView style={styles.container} edges={compact ? [] : ['top']}>
+      {/* ---- 顶部栏 (compact模式下隐藏) ---- */}
+      {!compact && (
+        <View style={styles.header}>
+          <View style={styles.headerTitleRow}>
+            <Text style={styles.greeting}>我的收藏</Text>
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={() => {
+                // TODO: 快速创建收藏
+              }}
+            >
+              <Ionicons name="add" size={24} color="#1890FF" />
+            </TouchableOpacity>
+          </View>
+
+          {/* 搜索栏 */}
           <TouchableOpacity
-            style={styles.addButton}
+            style={styles.searchBar}
+            activeOpacity={0.7}
             onPress={() => {
-              // TODO: 快速创建收藏
+              navigation.navigate('SearchTab');
             }}
           >
-            <Ionicons name="add" size={24} color="#1890FF" />
+            <Ionicons name="search" size={18} color="#BFBFBF" />
+            <Text style={styles.searchPlaceholder}>搜索收藏、标签...</Text>
           </TouchableOpacity>
         </View>
-
-        {/* 搜索栏 */}
-        <TouchableOpacity
-          style={styles.searchBar}
-          activeOpacity={0.7}
-          onPress={() => {
-            navigation.navigate('SearchTab');
-          }}
-        >
-          <Ionicons name="search" size={18} color="#BFBFBF" />
-          <Text style={styles.searchPlaceholder}>搜索收藏、标签...</Text>
-        </TouchableOpacity>
-      </View>
+      )}
 
       {/* ---- 分类网格 ---- */}
       <FlatList

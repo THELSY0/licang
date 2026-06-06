@@ -3,30 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { MainTabParamList } from './types';
 
-import CategoryHomeScreen from '../screens/home/CategoryHomeScreen';
-
-// Placeholder screens — will be implemented in later phases
-import { View, Text, StyleSheet } from 'react-native';
-
-function PlaceholderScreen({ title }: { title: string }) {
-  return (
-    <View style={styles.placeholder}>
-      <Text style={styles.placeholderText}>{title}</Text>
-    </View>
-  );
-}
-
-function ImportScreen() {
-  return <PlaceholderScreen title="导入" />;
-}
-
-function SearchScreen() {
-  return <PlaceholderScreen title="搜索" />;
-}
-
-function ProfileScreen() {
-  return <PlaceholderScreen title="我的" />;
-}
+import HomeScreen from '../screens/home/HomeScreen';
+import ImportScreen from '../screens/import/ImportScreen';
+import SearchScreen from '../screens/search/SearchScreen';
+import ProfileScreen from '../screens/profile/ProfileScreen';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
@@ -52,7 +32,7 @@ export default function MainTabNavigator() {
     >
       <Tab.Screen
         name="HomeTab"
-        component={CategoryHomeScreen}
+        component={HomeScreen}
         options={{
           tabBarLabel: '首页',
           tabBarIcon: ({ color, size }) => (
@@ -93,16 +73,3 @@ export default function MainTabNavigator() {
     </Tab.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  placeholder: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-  },
-  placeholderText: {
-    fontSize: 18,
-    color: '#8C8C8C',
-  },
-});

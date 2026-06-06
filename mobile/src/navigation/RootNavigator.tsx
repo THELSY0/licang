@@ -9,7 +9,24 @@ import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/auth/LoginScreen';
 import RegisterScreen from '../screens/auth/RegisterScreen';
 
+// 全屏跳转子页面
+import DetailScreen from '../screens/detail/DetailScreen';
+import CreateCollectScreen from '../screens/create/CreateCollectScreen';
+import CategoryManageScreen from '../screens/manage/CategoryManageScreen';
+import TagManageScreen from '../screens/manage/TagManageScreen';
+
 const RootStack = createNativeStackNavigator<RootStackParamList>();
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends RootStackParamList {
+      Detail: { collectId: number };
+      CreateCollect: { initialUrl?: string };
+      CategoryManage: undefined;
+      TagManage: undefined;
+    }
+  }
+}
 
 function AuthStack() {
   const AuthStackNav = createNativeStackNavigator();
@@ -41,7 +58,31 @@ export default function RootNavigator() {
     <NavigationContainer>
       <RootStack.Navigator screenOptions={{ headerShown: false }}>
         {isAuthenticated ? (
-          <RootStack.Screen name="MainTabs" component={MainTabNavigator} />
+          <>
+            <RootStack.Screen name="MainTabs" component={MainTabNavigator} />
+
+            {/* 全屏子页面 — 在Tab之上push */}
+            <RootStack.Screen
+              name="Detail"
+              component={DetailScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
+            <RootStack.Screen
+              name="CreateCollect"
+              component={CreateCollectScreen}
+              options={{ animation: 'slide_from_bottom' }}
+            />
+            <RootStack.Screen
+              name="CategoryManage"
+              component={CategoryManageScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
+            <RootStack.Screen
+              name="TagManage"
+              component={TagManageScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
+          </>
         ) : (
           <RootStack.Screen name="AuthStack" component={AuthStack} />
         )}
