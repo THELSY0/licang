@@ -13,6 +13,7 @@ interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  isInitialized: boolean;
 
   // Actions
   login: (phone: string, password: string) => Promise<void>;
@@ -30,6 +31,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   isAuthenticated: false,
   isLoading: true,
+  isInitialized: false,
 
   login: async (phone: string, password: string) => {
     const tokens = await authApi.login(phone, password);
@@ -80,7 +82,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   loadUser: async () => {
     try {
-      set({ isLoading: true });
+      // 防止重复初始化导致的无限循环
+      if (get().isInitialized) return;
+
       const token = await AsyncStorage.getItem(TOKEN_KEY);
       const refreshToken = await AsyncStorage.getItem(REFRESH_TOKEN_KEY);
 
@@ -92,7 +96,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       set({ token, refreshToken });
 
       const user = await authApi.getUserInfo();
-      set({ user, isAuthenticated: true, isLoading: false });
+      set({ user, isAuthenticated: true, isLoading: false, isInitialized: true });
     } catch {
       await clearStoredTokens();
       set({
@@ -101,6 +105,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         user: null,
         isAuthenticated: false,
         isLoading: false,
+        isInitialized: true,
       });
     }
   },
