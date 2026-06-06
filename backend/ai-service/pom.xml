@@ -14,7 +14,7 @@
     <packaging>jar</packaging>
 
     <name>Licang AI Service</name>
-    <description>AI-powered microservice</description>
+    <description>AI-powered categorization, tagging, and summarization service</description>
 
     <dependencies>
         <dependency>
@@ -24,6 +24,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- Spring Data Redis for caching/rate-limiting -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
     </dependencies>
 

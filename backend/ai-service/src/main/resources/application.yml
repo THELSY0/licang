@@ -4,3 +4,13 @@ server:
 spring:
   application:
     name: ai-service
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 5000
+
+# AI API configuration (placeholder - replace with actual API key)
+ai:
+  api-key: ${AI_API_KEY:sk-placeholder}
+  model: ${AI_MODEL:gpt-3.5-turbo}

@@ -14,7 +14,7 @@
     <packaging>jar</packaging>
 
     <name>Licang Parse Service</name>
-    <description>Data parsing microservice</description>
+    <description>Link parsing service - extract title/cover/content from URLs</description>
 
     <dependencies>
         <dependency>
@@ -24,6 +24,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- Jsoup for HTML parsing -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.18.1</version>
         </dependency>
     </dependencies>
 
