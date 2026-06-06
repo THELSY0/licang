@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.licang.collect.mapper.CollectMapper">
+
+    <!-- 分页条件查询结果映射 -->
+    <resultMap id="CollectVOResultMap" type="com.licang.collect.dto.CollectVO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="title" property="title"/>
+        <result column="origin_url" property="originUrl"/>
+        <result column="cover_url" property="coverUrl"/>
+        <result column="resource_type" property="resourceType"/>
+        <result column="platform" property="platform"/>
+        <result column="content" property="content"/>
+        <result column="summary" property="summary"/>
+        <result column="remark" property="remark"/>
+        <result column="read_status" property="readStatus"/>
+        <result column="is_top" property="isTop"/>
+        <result column="is_cache" property="isCache"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <collection property="tags" ofType="com.licang.collect.dto.TagVO">
+            <id column="tag_id" property="id"/>
+            <result column="tag_name" property="tagName"/>
+            <result column="tag_color" property="color"/>
+        </collection>
+    </resultMap>
+
+    <!-- 分页条件查询 -->
+    <!-- MyBatis 通过 resultMap 的 id 字段自动去重，collection 映射处理一对多关系 -->
+    <select id="selectPageWithCondition" resultMap="CollectVOResultMap">
+        SELECT
+            c.id,
+            c.user_id,
+            c.category_id,
+            cat.cat_name AS category_name,
+            c.title,
+            c.origin_url,
+            c.cover_url,
+            c.resource_type,
+            c.platform,
+            c.content,
+            c.summary,
+            c.remark,
+            c.read_status,
+            c.is_top,
+            c.is_cache,
+            c.create_time,
+            c.update_time,
+            t.id AS tag_id,
+            t.tag_name,
+            t.color AS tag_color
+        FROM collect c
+        LEFT JOIN category cat ON c.category_id = cat.id AND cat.is_delete = 0
+        LEFT JOIN collect_tag ct ON c.id = ct.collect_id
+        LEFT JOIN tag t ON ct.tag_id = t.id AND t.is_delete = 0
+        <where>
+            c.is_delete = 0
+            AND c.user_id = #{userId}
+            <if test="categoryId != null and categoryId != 0">
+                AND c.category_id = #{categoryId}
+            </if>
+            <if test="resourceType != null and resourceType != 0">
+                AND c.resource_type = #{resourceType}
+            </if>
+            <if test="readStatus != null and readStatus != -1">
+                AND c.read_status = #{readStatus}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND (c.title LIKE CONCAT('%', #{keyword}, '%')
+                     OR c.summary LIKE CONCAT('%', #{keyword}, '%')
+                     OR c.remark LIKE CONCAT('%', #{keyword}, '%')
+                     OR c.content LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+        ORDER BY c.is_top DESC, c.create_time DESC
+    </select>
+
+</mapper>
