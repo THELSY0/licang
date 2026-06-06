@@ -21,3 +21,6 @@ Thumbs.db
 *.class
 *.jar
 *.war
+.reasonix/
+
+# Reasonix temp

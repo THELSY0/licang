@@ -2,8 +2,11 @@ package com.licang.ai.service.impl;
 
 import com.licang.ai.dto.*;
 import com.licang.ai.service.AiService;
+import com.licang.ai.service.AutoCategoryService;
+import com.licang.ai.service.SummaryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,60 +21,24 @@ import java.util.stream.Collectors;
  * Designed to be extended with real AI API calls via the {@code callAiApi()} placeholder.
  */
 @Service
+@RequiredArgsConstructor
 public class AiServiceImpl implements AiService {
 
     private static final Logger log = LoggerFactory.getLogger(AiServiceImpl.class);
 
-    // ── Category rules ──────────────────────────────────────────────
-
-    private static final Map<String, Long> PLATFORM_CATEGORY_MAP = Map.of(
-            "bilibili", 1L,   // video collection
-            "douyin", 1L,     // video collection
-            "youtube", 1L,    // video collection
-            "wechat", 4L,     // 公众号 articles
-            "zhihu", 2L       // knowledge / reading
-    );
-
-    private static final List<CategoryRule> CONTENT_RULES = Arrays.asList(
-            new CategoryRule("编程|代码|Java|Python|前端|后端|算法|数据库|源码|架构|API|Git|Docker", 3L),   // 编程技术
-            new CategoryRule("设计|UI|UX|Figma|Sketch|原型|交互", 6L),                                      // 设计
-            new CategoryRule("产品|需求|PRD|项目管理|敏捷", 7L),                                              // 产品
-            new CategoryRule("英语|日语|学习|教程|课程|读书|笔记", 2L),                                      // 学习/阅读
-            new CategoryRule("新闻|资讯|热点|报告|行业", 5L)                                                 // 行业资讯
-    );
+    private final SummaryService summaryService;
+    private final AutoCategoryService autoCategoryService;
 
     // ── Implementation ──────────────────────────────────────────────
 
     @Override
     public AiResult suggestCategory(AiCategoryRequest request) {
-        Long categoryId = null;
-
-        // 1. Platform-based mapping
-        if (request.getPlatform() != null) {
-            categoryId = PLATFORM_CATEGORY_MAP.get(request.getPlatform().toLowerCase());
-        }
-
-        // 2. Content/title keyword matching
-        if (categoryId == null) {
-            String text = buildSearchText(request.getTitle(), request.getContent());
-            for (CategoryRule rule : CONTENT_RULES) {
-                if (rule.matches(text)) {
-                    categoryId = rule.categoryId;
-                    break;
-                }
-            }
-        }
-
-        // 3. Fallback: general collection
-        if (categoryId == null) {
-            categoryId = 0L;
-        }
-
-        return AiResult.builder()
-                .resultType("category")
-                .value(String.valueOf(categoryId))
-                .confidence(0.6)
-                .build();
+        // 委托给 AutoCategoryService
+        return autoCategoryService.suggestCategory(
+                request.getPlatform(),
+                null, // resourceType 不在请求中，传 null
+                request.getTitle()
+        );
     }
 
     @Override
@@ -108,32 +75,13 @@ public class AiServiceImpl implements AiService {
 
     @Override
     public AiResult generateSummary(AiSummaryRequest request) {
+        // 取内容（优先 content，兜底 title）
         String text = request.getContent();
         if (text == null || text.isBlank()) {
             text = request.getTitle();
         }
-
-        if (text == null || text.isBlank()) {
-            return AiResult.builder()
-                    .resultType("summary")
-                    .value("")
-                    .confidence(0.0)
-                    .build();
-        }
-
-        // Take first 200 characters as summary
-        String summary = text.length() > 200 ? text.substring(0, 200) : text;
-        // Clean up — take up to last complete sentence
-        int lastPeriod = summary.lastIndexOf("。");
-        if (lastPeriod > 20) {
-            summary = summary.substring(0, lastPeriod + 1);
-        }
-
-        return AiResult.builder()
-                .resultType("summary")
-                .value(summary.trim())
-                .confidence(0.7)
-                .build();
+        // 委托给 SummaryService
+        return summaryService.generateSummary(text, 200);
     }
 
     // ── Helpers ─────────────────────────────────────────────────────

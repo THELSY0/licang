@@ -2,6 +2,8 @@ package com.licang.parse.service.impl;
 
 import com.licang.parse.dto.ParseResult;
 import com.licang.parse.service.ParseService;
+import com.licang.parse.util.PlatformDetector;
+import com.licang.parse.util.ResourceTypeInferrer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -31,9 +33,9 @@ public class ParseServiceImpl implements ParseService {
         }
 
         // Identify platform by URL pattern
-        String platform = identifyPlatform(url);
+        String platform = PlatformDetector.detect(url);
         // Determine resource type based on platform & URL patterns
-        int resourceType = determineResourceType(platform, url);
+        int resourceType = ResourceTypeInferrer.infer(platform, url);
 
         // Fetch and parse via Jsoup
         try {
@@ -81,42 +83,7 @@ public class ParseServiceImpl implements ParseService {
         }
     }
 
-    /**
-     * Identify the platform from URL.
-     */
-    String identifyPlatform(String url) {
-        String lower = url.toLowerCase();
-        if (lower.contains("www.bilibili.com") || lower.contains("b23.tv")) {
-            return "bilibili";
-        } else if (lower.contains("www.douyin.com") || lower.contains("douyin.com")) {
-            return "douyin";
-        } else if (lower.contains("youtube.com") || lower.contains("youtu.be")) {
-            return "youtube";
-        } else if (lower.contains("mp.weixin.qq.com")) {
-            return "wechat";
-        } else if (lower.contains("zhuanlan.zhihu.com")) {
-            return "zhihu";
-        } else if (lower.contains("juejin.cn") || lower.contains("juejin.im")) {
-            return "juejin";
-        } else if (lower.contains("csdn.net")) {
-            return "csdn";
-        } else if (lower.contains("github.com")) {
-            return "github";
-        } else {
-            return "web";
-        }
-    }
 
-    /**
-     * Determine resource type: 1=video, 2=图文, 3=MD, 4=webpage.
-     */
-    int determineResourceType(String platform, String url) {
-        return switch (platform) {
-            case "bilibili", "douyin", "youtube" -> 1; // video
-            case "wechat", "zhihu", "juejin", "csdn" -> 2; // 图文
-            default -> 4; // general webpage
-        };
-    }
 
     /**
      * Extract meta tag content by property or name.

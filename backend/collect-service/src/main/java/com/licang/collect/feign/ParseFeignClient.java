@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 /**
  * 解析服务 Feign 客户端
  */
-@FeignClient(name = "parse-service", url = "http://localhost:8003")
+@FeignClient(name = "parse-service", url = "${parse.service.url:http://localhost:8003}")
 public interface ParseFeignClient {
 
     /**

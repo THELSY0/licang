@@ -1,0 +1,165 @@
+### ==========================================
+### 栗藏 (LiCang) API 集成测试（完整场景）
+### 使用 VS Code REST Client 插件运行
+### 基础地址: http://localhost:8080 (网关)
+### ==========================================
+
+@baseUrl = http://localhost:8080
+
+### ==========================================
+### 场景1: 注册 → 登录 → 获取用户信息
+### ==========================================
+
+### 1.1 注册新用户
+POST {{baseUrl}}/v1/user/register
+Content-Type: application/json
+
+{
+  "phone": "13900139000",
+  "code": "123456",
+  "password": "test123456"
+}
+
+### 1.2 登录获取 JWT Token
+# @name login
+POST {{baseUrl}}/v1/user/login
+Content-Type: application/json
+
+{
+  "phone": "13900139000",
+  "password": "test123456"
+}
+
+### 保存 token 供后续请求使用
+@token = {{login.response.body.data.token}}
+
+### 1.3 获取当前用户信息
+GET {{baseUrl}}/v1/user/info
+Authorization: Bearer {{token}}
+
+### ==========================================
+### 场景2: 创建分类 → 用B站URL创建收藏
+### ==========================================
+
+### 2.1 创建默认分类
+# @name createCategory
+POST {{baseUrl}}/v1/categories
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "catName": "视频收藏",
+  "sort": 1
+}
+
+### 保存分类ID
+@categoryId = {{createCategory.response.body.data.id}}
+
+### 2.2 用 B 站 URL 创建收藏（模拟解析后传入）
+POST {{baseUrl}}/v1/collects
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "【教程】Spring Boot 3 入门到精通",
+  "originUrl": "https://www.bilibili.com/video/BV1ABC123",
+  "coverUrl": "https://i0.hdslb.com/bfs/archive/cover.jpg",
+  "resourceType": 1,
+  "platform": "bilibili",
+  "content": "本视频教程详细介绍了 Spring Boot 3 的核心特性，包括自动配置、起步依赖、Actuator 监控等。适合 Java 开发者学习微服务开发。",
+  "summary": "Spring Boot 3 入门教程，涵盖自动配置与微服务开发",
+  "categoryId": {{categoryId}},
+  "tagIds": []
+}
+
+### 保存收藏ID
+@collectId = {{createCollect.response.body.data.id}}
+
+### 2.3 创建第二个收藏（图文类型）
+POST {{baseUrl}}/v1/collects
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "深入理解 JVM 内存模型",
+  "originUrl": "https://zhuanlan.zhihu.com/p/jvm-memory",
+  "coverUrl": "",
+  "resourceType": 2,
+  "platform": "zhihu",
+  "content": "JVM 内存模型是 Java 虚拟机的核心规范。本文详细介绍了堆、栈、方法区等运行时数据区域，以及垃圾回收机制的工作原理。",
+  "summary": "JVM 内存模型详解",
+  "categoryId": {{categoryId}},
+  "tagIds": []
+}
+
+### ==========================================
+### 场景3: 为收藏添加标签 → 搜索
+### ==========================================
+
+### 3.1 创建自定义标签
+# @name createTag
+POST {{baseUrl}}/v1/tags
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "tagName": "Spring Boot",
+  "color": "#1890FF"
+}
+
+### 保存标签ID
+@tagId = {{createTag.response.body.data.id}}
+
+### 3.2 获取所有标签列表
+GET {{baseUrl}}/v1/tags
+Authorization: Bearer {{token}}
+
+### 3.3 搜索收藏（关键词搜索，权重: title^3 > summary^2 > content）
+GET {{baseUrl}}/v1/collects/search?keyword=Spring&page=1&size=20
+Authorization: Bearer {{token}}
+
+### 3.4 搜索收藏（中文关键词）
+GET {{baseUrl}}/v1/collects/search?keyword=JVM&page=1&size=20
+Authorization: Bearer {{token}}
+
+### 3.5 获取收藏分页列表
+GET {{baseUrl}}/v1/collects?page=1&size=10
+Authorization: Bearer {{token}}
+
+### ==========================================
+### 场景4: 修改阅读状态 → 置顶 → 删除
+### ==========================================
+
+### 4.1 更新阅读状态为「在读」(1)
+PUT {{baseUrl}}/v1/collects/{{collectId}}/read?readStatus=1
+Authorization: Bearer {{token}}
+
+### 4.2 切换置顶状态（置顶）
+PUT {{baseUrl}}/v1/collects/{{collectId}}/top
+Authorization: Bearer {{token}}
+
+### 4.3 再次切换置顶状态（取消置顶）
+PUT {{baseUrl}}/v1/collects/{{collectId}}/top
+Authorization: Bearer {{token}}
+
+### 4.4 获取收藏详情确认状态变更
+GET {{baseUrl}}/v1/collects/{{collectId}}
+Authorization: Bearer {{token}}
+
+### 4.5 更新收藏内容
+PUT {{baseUrl}}/v1/collects/{{collectId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "【教程】Spring Boot 3 入门到精通（已更新）",
+  "remark": "已看完第一章"
+}
+
+### 4.6 删除收藏（逻辑删除，ES 同步删除）
+DELETE {{baseUrl}}/v1/collects/{{collectId}}
+Authorization: Bearer {{token}}
+
+### 4.7 确认收藏已删除（应返回 404）
+GET {{baseUrl}}/v1/collects/{{collectId}}
+Authorization: Bearer {{token}}
